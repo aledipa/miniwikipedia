@@ -1,12 +1,15 @@
 // const http = require('http');
 
 import { get } from "http";
+import { title } from "process";
 
 // const fs = require('fs');
 const wiki = require('wikipedia');
 const express = require('express')
 const app = express()
 const port = 3000;
+
+app.engine('html', require('ejs').renderFile);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -18,8 +21,22 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
-
-app.listen(port, () => console.info('Listening on port ' + port ));
+app.post('/result', (req, res) => {
+    console.log("Request received");
+    (async () => {
+        try {
+            const summary = await wiki.summary(req.body.search);
+            // console.log("title: " + summary.title);
+            // console.log("description: " + summary.description);
+            // console.log("extract: " + summary.extract);
+            res.render(__dirname + '/views/result.html', {title:summary.title, description:summary.description, summary:summary.extract});
+            //Response of type @wikiSummary - contains the intro and the main image
+        } catch (error) {
+            res.json([{summary: error}]);
+            //=> Typeof wikiError
+        }
+    })();
+});
 
 // Handling suggestion request
 app.post("/suggestion", async (req, res) => {
@@ -39,33 +56,8 @@ app.post("/suggestion", async (req, res) => {
 })
 
 
-// Handling summary request 
-app.post("/summary", async (req, res) => {
-    console.log("Request received");
-    (async () => {
-        try {
-            const summary = await wiki.summary(req.body.search);
-            res.json([{summary: summary}]);
-            //Response of type @wikiSummary - contains the intro and the main image
-        } catch (error) {
-            res.json([{summary: error}]);
-            //=> Typeof wikiError
-        }
-    })();
- })
+app.listen(port, () => console.info('Listening on port ' + port ));
 
-function getSummary() {
-    (async () => {
-        try {
-            const summary: string = await wiki.summary('Batman');
-            return summary;
-            //Response of type @wikiSummary - contains the intro and the main image
-        } catch (error) {
-            return error;
-            //=> Typeof wikiError
-        }
-    })();
-}
 
 // const server = http.createServer(function(req, res) {
 //     res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -87,11 +79,3 @@ function getSummary() {
 //         console.log('Server is listening on port ' + port)
 //     }
 // });
-
-
-// function summarize() {
-//     const text: string = document.getElementById("text").textContent;
-//     const summary: string = cohere.summarize(text);
-//     document.getElementById("summary").innerHTML = summary;
-// }
-

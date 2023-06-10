@@ -1,4 +1,5 @@
 @import url('https://fonts.cdnfonts.com/css/helvetica-neue-9');
+@import url('https://fonts.cdnfonts.com/css/georgia');
 
 
 /* This text is in Helvetica */
@@ -9,4 +10,9 @@
     font-family: 'Helvetica 45 Light', sans-serif;
     font-family: 'Helvetica 55 Roman', sans-serif;
     font-family: 'Helvetica 65 Medium', sans-serif;
+}
+
+/* This text is in Georgia */
+.georgia { 
+    font-family: 'Georgia', serif;
 }
