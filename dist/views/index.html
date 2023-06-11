@@ -40,18 +40,20 @@
         </div>
 
         <!-- input bar -->
-        <div class="inputBar w-full h-1/5 flex justify-center items-center">
+        <div class="inputBar w-full h-1/5r">
             <form action="/result" method="POST" class="w-full flex justify-center">
                 <input type="text" name="search" id="search"
                        class="w-7/12 h-12 pl-5 ml-6 mt-5 text-left text-xl helvetica font-thin outline-0 border-b border-l border-black bg-white" 
-                       placeholder="A mini search..." required>
-                <div class="suggestions">
-                    <ul></ul>
-                </div>
-                <button id="submit" type="submit" class="w-12 h-24 hover:opacity-70">
-                    <img src="img/search_catalinfertu.png" class="h-10 hover:opacity-70 mb-1 ml-2">
+                       placeholder="A mini search..." required autocomplete="off">
+
+                <button id="submit" type="submit" class="w-12 h-24 hover:opacity-70 outline-0">
+                    <img src="img/search_catalinfertu.png" class="h-10 hover:opacity-70 mb-1 ml-2 outline-0">
                 </button>
             </form>
+            <div id="suggestionSection" class="suggestions w-full flex justify-center">
+                <img id="suggestionArrow" src="img/right-arrow_pixelperfect.png" class="h-4 mt-2 mr-2 opacity-70 hidden">
+                <ul id="suggestion" class="w-7/12 h-12 text-left text-xl helvetica font-thin outline-0 bg-transparent text-gray-500 hover:text-green-500 hidden"></ul>
+            </div>
         </div>
 
     <!-- Scripts -->

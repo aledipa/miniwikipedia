@@ -18,6 +18,7 @@ app.use('/script', express.static(__dirname + 'public/script'));
 app.use('/img', express.static(__dirname + 'public/img'));
 
 app.get('/', (req, res) => {
+    console.log("Request received");
     res.sendFile(__dirname + '/views/index.html');
 });
 
@@ -25,14 +26,18 @@ app.post('/result', (req, res) => {
     console.log("Request received");
     (async () => {
         try {
-            const summary = await wiki.summary(req.body.search);
+            // const changedLang = await wiki.setLang('en');
+            const summary = await wiki.summary(req.body.search, {autoSuggest: false});
             // console.log("title: " + summary.title);
             // console.log("description: " + summary.description);
             // console.log("extract: " + summary.extract);
+            // res.render(__dirname + '/views/result.html', {title:page.title, description:page.description, summary:page.extract});
             res.render(__dirname + '/views/result.html', {title:summary.title, description:summary.description, summary:summary.extract});
             //Response of type @wikiSummary - contains the intro and the main image
         } catch (error) {
-            res.json([{summary: error}]);
+            const summary = await wiki.summary("HTTP 404", {autoSuggest: false});
+            res.render(__dirname + '/views/result.html', {title:summary.title, description:summary.description, summary:summary.extract});
+            // res.json([{summary: error}]);
             //=> Typeof wikiError
         }
     })();
@@ -45,6 +50,8 @@ app.post("/suggestion", async (req, res) => {
     (async () => {
         try {
             const suggestion = await wiki.suggest(req.body.search); //await wiki.search(req.body.search, {suggestion: true, limit: 10});
+            // const languages = await wiki.languages();
+            // console.log(languages);
             // console.log("sugg: " + suggestion);
             res.json([{suggestion: suggestion}]);
             //Response of type @wikiSuggestion - contains the results
@@ -53,7 +60,7 @@ app.post("/suggestion", async (req, res) => {
             //=> Typeof wikiError
         }
     })();
-})
+});
 
 
 app.listen(port, () => console.info('Listening on port ' + port ));
