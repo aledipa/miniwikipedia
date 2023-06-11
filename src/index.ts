@@ -1,43 +1,47 @@
-// const http = require('http');
+// Purpose: Main file of the project. Contains the server and the routes.
 
-import { get } from "http";
-import { title } from "process";
-
-// const fs = require('fs');
+// Importing the required modules
 const wiki = require('wikipedia');
 const express = require('express')
 const app = express()
 const port = 3000;
 
+// Setting up the view engine
 app.engine('html', require('ejs').renderFile);
 
+// Setting up the server
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/css', express.static(__dirname + 'public/css'));
 app.use('/script', express.static(__dirname + 'public/script'));
 app.use('/img', express.static(__dirname + 'public/img'));
 
+// Handling home page request
 app.get('/', (req, res) => {
-    console.log("Request received");
     res.sendFile(__dirname + '/views/index.html');
 });
 
+// Handling privacy policy request
+app.get('/privacy', (req, res) => {
+    res.sendFile(__dirname + '/views/privacy.html');
+});
+
+// Handling terms policy request
+app.get('/terms', (req, res) => {
+    res.sendFile(__dirname + '/views/terms.html');
+});
+
+// Handling search request
 app.post('/result', (req, res) => {
-    console.log("Request received");
     (async () => {
         try {
-            // const changedLang = await wiki.setLang('en');
+            req.body.search = setPhraseCapitalFirstLetters(req.body.search);
             const summary = await wiki.summary(req.body.search, {autoSuggest: false});
-            // console.log("title: " + summary.title);
-            // console.log("description: " + summary.description);
-            // console.log("extract: " + summary.extract);
-            // res.render(__dirname + '/views/result.html', {title:page.title, description:page.description, summary:page.extract});
             res.render(__dirname + '/views/result.html', {title:summary.title, description:summary.description, summary:summary.extract});
             //Response of type @wikiSummary - contains the intro and the main image
         } catch (error) {
             const summary = await wiki.summary("HTTP 404", {autoSuggest: false});
             res.render(__dirname + '/views/result.html', {title:summary.title, description:summary.description, summary:summary.extract});
-            // res.json([{summary: error}]);
             //=> Typeof wikiError
         }
     })();
@@ -45,14 +49,9 @@ app.post('/result', (req, res) => {
 
 // Handling suggestion request
 app.post("/suggestion", async (req, res) => {
-    // console.log("search: " + req.body.search);
-    console.log("Request received");
     (async () => {
         try {
             const suggestion = await wiki.suggest(req.body.search); //await wiki.search(req.body.search, {suggestion: true, limit: 10});
-            // const languages = await wiki.languages();
-            // console.log(languages);
-            // console.log("sugg: " + suggestion);
             res.json([{suggestion: suggestion}]);
             //Response of type @wikiSuggestion - contains the results
         } catch (error) {
@@ -62,27 +61,15 @@ app.post("/suggestion", async (req, res) => {
     })();
 });
 
-
+// Server listening on given port
 app.listen(port, () => console.info('Listening on port ' + port ));
 
-
-// const server = http.createServer(function(req, res) {
-//     res.writeHead(200, { 'Content-Type': 'text/html' });
-//     fs.readFile('src/index.html', function(error, data) {
-//         if (error) {
-//             res.writeHead(404);
-//             res.write('Error: File Not Found');
-//         } else {
-//             res.write(data);
-//         }
-//         res.end();
-//     });
-// });
-
-// server.listen(port, function(error) {
-//     if (error) {
-//         console.log('Something went wrong', error);
-//     } else {
-//         console.log('Server is listening on port ' + port)
-//     }
-// });
+// Sets the first letter of every word in a phrase to capital
+function setPhraseCapitalFirstLetters(phrase: string) {
+    let words = phrase.split(' ');
+    let capitalizedWords = [];
+    words.forEach(word => {
+        capitalizedWords.push(word.charAt(0).toUpperCase() + word.slice(1));
+    });
+    return capitalizedWords.join(' ');
+}

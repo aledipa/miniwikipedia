@@ -30,26 +30,3 @@
 :-ms-input-placeholder {  
     font-style: italic; 
 }
-
-/* Autocomplete graphics */
-/* ul {
-    display: none;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-ul.has-suggestions {
-    display: block;
-}
-ul li {
-    padding: 10px;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-}
-ul li:hover {
-    background-color: #e65c00;
-} */

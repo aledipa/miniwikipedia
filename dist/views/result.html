@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/favicon.png" type="image/png">
-    <title>miniWikipedia</title>
+    <link rel="icon" href="img/wikipedia_freepik.png" type="image/png">
+    <title>miniWikipedia - <%= title %> </title>
 </head>
 <body>
     <!-- NAVBAR -->
     <nav class="w-screen h-16 flex pt-2 pl-1 fixed top-0 z-10 bg-[#F9F9F9] grid grid-rows-2 grid-flow-col gap-4">
-        <!-- TOP-LEFT CATEGORIES LABELS -->
+        <!-- TOP-LEFT LOGO -->
         <p class="flex justify-start items-end row-start-2 row-span-2">
             <a class="ml-2 hover:text-gray-500"  href="/"> 
                 <img src="img/miniWikipedia_horizontal.svg" class="h-12 mb-2">
@@ -24,7 +24,7 @@
             <form action="/result" method="POST" class="w-full flex justify-end ">
                 <input type="text" name="search" id="search"
                        class="w-7/12 h-10 pl-5 text-left text-xl helvetica font-thin outline-0 border-b border-l border-black bg-[#F9F9F9]" 
-                       placeholder="Search...">
+                       placeholder="Search..." required autocomplete="off">
                 <div class="suggestions">
                     <ul></ul>
                 </div>
@@ -36,7 +36,7 @@
     </nav>
 
 
-    <!-- CONTENT -->
+    <!-- Result -->
     <div class="mt-40 h-screen">
         <p class="ml-24 georgia font-extrabold text-3xl"> <%= title %> </p>
         <p class="ml-24 helvetica font-thin text-s text-gray-400"><i> <%= description %> </i></p>
