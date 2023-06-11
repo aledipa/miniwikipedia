@@ -6,7 +6,7 @@ miniWikipedia is a website that lets you search every article on Wikipedia and g
 
 To run miniWikipedia locally, you need to have Node.js and npm installed on your machine. You also need to get an API key from Wikipedia to access their data. Follow these steps to set up the project:
 
-1. Clone this repository to your local machine: `git clone https://github.com/yourusername/miniWikipedia.git`
+1. Clone this repository to your local machine: `git clone https://github.com/aledipa/miniwikipedia.git`
 2. Navigate to the project directory: `cd miniWikipedia`
 3. Install the dependencies: `npm install`
 4. Start the server: `npm start`
