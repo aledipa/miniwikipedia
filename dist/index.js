@@ -27,11 +27,11 @@ app.get('/terms', (req, res) => {
     res.sendFile(__dirname + '/views/terms.html');
 });
 // Handling search request
-app.post('/result', (req, res) => {
+app.get('/result', (req, res) => {
     (async () => {
         try {
-            req.body.search = setPhraseCapitalFirstLetters(req.body.search);
-            const summary = await wiki.summary(req.body.search, { autoSuggest: false });
+            req.query.search = setPhraseCapitalFirstLetters(req.query.search);
+            const summary = await wiki.summary(req.query.search, { autoSuggest: false });
             res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
             //Response of type @wikiSummary - contains the intro and the main image
         }
