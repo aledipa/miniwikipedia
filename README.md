@@ -2,7 +2,7 @@
 
 miniWikipedia is a website that lets you search every article on Wikipedia and gives you the concise summaries of any topic. It runs in Node.js and TypeScript.
 
-## Installation
+## Manual Installation
 
 To run miniWikipedia locally, you need to have Node.js and npm installed on your machine. You also need to get an API key from Wikipedia to access their data. Follow these steps to set up the project:
 
@@ -13,6 +13,26 @@ To run miniWikipedia locally, you need to have Node.js and npm installed on your
 5. Run the server: `node dist/index.js`
 6. Open your browser and go to `http://localhost:3000` to see the website
 
+## Docker Installation
+<img src=".github/img/docker-logo.webp" width="400" height="100" />
+
+It's possible to install the docker image of miniWikipedia by running this command:
+
+`docker container run -p YOUR_PORT:3000 -d d0ckmg/miniwikipedia`
+
+or alternatively, you can use a docker-compose file:
+
+**docker-compose.yml**
+
+```yaml
+version: "3.9"
+services:
+  node:
+    image: d0ckmg/miniwikipedia
+    container_name: miniwikipedia
+    ports:
+      - 3000:3000/tcp
+```
 ## Usage
 
 To use miniWikipedia, simply type a topic in the search box and click the search button or press 'enter'. While typing, below the input bar, will appear a text suggestion, to select it just click on it or press 'tab'.
