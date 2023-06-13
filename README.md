@@ -18,7 +18,7 @@ To run miniWikipedia locally, you need to have Node.js and npm installed on your
 
 It's possible to install the docker image of miniWikipedia by running this command:
 
-`docker container run YOUR_PORT:3000 d0ckmg/miniwikipedia`
+`docker container run -p YOUR_PORT:3000 -d d0ckmg/miniwikipedia`
 
 or alternatively, you can use a docker-compose file:
 
