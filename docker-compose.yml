@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  node:
+    image: d0ckmg/miniwikipedia
+    container_name: miniwikipedia
+    ports:
+      - 3000:3000/tcp
