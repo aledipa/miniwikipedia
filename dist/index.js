@@ -32,12 +32,26 @@ app.get('/result', (req, res) => {
         try {
             req.query.search = setPhraseCapitalFirstLetters(req.query.search);
             const summary = await wiki.summary(req.query.search, { autoSuggest: false });
+            if (summary.extract.includes("refer to:")) {
+                throw new Error("No specific summary found");
+            }
             res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
             //Response of type @wikiSummary - contains the intro and the main image
         }
         catch (error) {
-            const summary = await wiki.summary("HTTP 404", { autoSuggest: false });
-            res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
+            const search_results = await wiki.search(req.query.search, { suggestion: true, limit: 10 });
+            if (search_results.results.length > 0) {
+                var links = [];
+                for (let i = 0; i < search_results.results.length; i++) {
+                    links.push(formatSpaces(linkFromTitle(search_results.results[i].title), '_'));
+                }
+                res.render(__dirname + '/views/search.html', { title: req.query.search, description: "Topics referred to by the same term", search_results: search_results.results, links: links });
+                // console.log("Search result link 1: " + linkFromTitle(search_results.results[0].title));
+            }
+            else {
+                const summary = await wiki.summary("HTTP 404", { autoSuggest: false });
+                res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
+            }
             //=> Typeof wikiError
         }
     })();
@@ -66,5 +80,14 @@ function setPhraseCapitalFirstLetters(phrase) {
         capitalizedWords.push(word.charAt(0).toUpperCase() + word.slice(1));
     });
     return capitalizedWords.join(' ');
+}
+// Replaces spaces with underscores
+function formatSpaces(phrase, replacement) {
+    let words = phrase.split(' ');
+    return words.join(replacement);
+}
+// Creates the link of the result option
+function linkFromTitle(title) {
+    return "/result?search=" + title;
 }
 //# sourceMappingURL=index.js.map
