@@ -42,7 +42,7 @@
         <p class="ml-24 helvetica font-thin text-s text-gray-400"><i> <%= description %> </i></p>
         <br>
         <!-- bulleted list of titles -->
-        <% for (let i = 0; i < search_results.length; i++) { %>
+        <% for (let i = 1; i < search_results.length; i++) { %>
             <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[i] %>"> <%= search_results[i].title %> </a></u> </div>
         <% } %>
     </div>
