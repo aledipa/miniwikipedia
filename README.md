@@ -1,6 +1,7 @@
 # miniWikipedia
 
 miniWikipedia is a summarised version of the whole Wikipedia encyclopedia. It's a lightweight website and it runs in NodeJS and TypeScript.
+
 <img src="public/img/miniWikipedia_horizontal.svg" width="400" height="100" />
 
 ## Manual Installation
