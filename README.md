@@ -1,6 +1,7 @@
 # miniWikipedia
 
-miniWikipedia is a website that lets you search every article on Wikipedia and gives you the concise summaries of any topic. It runs in Node.js and TypeScript.
+miniWikipedia is a summarised version of the whole Wikipedia encyclopedia. It's a lightweight website and it runs in NodeJS and TypeScript.
+<img src="public/img/miniWikipedia_horizontal.svg" width="400" height="100" />
 
 ## Manual Installation
 
