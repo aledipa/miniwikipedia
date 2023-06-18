@@ -30,6 +30,7 @@ app.get('/terms', (req, res) => {
 app.get('/result', (req, res) => {
     (async () => {
         try {
+            // Tries to give the summary of the search
             req.query.search = setPhraseCapitalFirstLetters(req.query.search);
             const summary = await wiki.summary(req.query.search, { autoSuggest: false });
             if (summary.extract.includes("refer to:")) {
@@ -39,6 +40,7 @@ app.get('/result', (req, res) => {
             //Response of type @wikiSummary - contains the intro and the main image
         }
         catch (error) {
+            // If no summary is found, gives the search results to choose from
             const search_results = await wiki.search(req.query.search, { suggestion: true, limit: 10 });
             if (search_results.results.length > 0) {
                 var links = [];
@@ -46,9 +48,9 @@ app.get('/result', (req, res) => {
                     links.push(formatSpaces(linkFromTitle(search_results.results[i].title), '_'));
                 }
                 res.render(__dirname + '/views/search.html', { title: req.query.search, description: "Topics referred to by the same term", search_results: search_results.results, links: links });
-                // console.log("Search result link 1: " + linkFromTitle(search_results.results[0].title));
             }
             else {
+                // If no search results are found, gives the summary of the "HTTP 404" page
                 const summary = await wiki.summary("HTTP 404", { autoSuggest: false });
                 res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
             }
