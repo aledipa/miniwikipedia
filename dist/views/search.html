@@ -42,16 +42,9 @@
         <p class="ml-24 helvetica font-thin text-s text-gray-400"><i> <%= description %> </i></p>
         <br>
         <!-- bulleted list of titles -->
-        <!-- TODO: Make the lines below prettier -->
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[1] %>"> <%= search_results[1].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[2] %>"> <%= search_results[2].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[3] %>"> <%= search_results[3].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[4] %>"> <%= search_results[4].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[5] %>"> <%= search_results[5].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[6] %>"> <%= search_results[6].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[7] %>"> <%= search_results[7].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[8] %>"> <%= search_results[8].title %> </a></u> </div>
-        <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[9] %>"> <%= search_results[9].title %> </a></u> </div>
+        <% for (let i = 0; i < search_results.length; i++) { %>
+            <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[i] %>"> <%= search_results[i].title %> </a></u> </div>
+        <% } %>
     </div>
 </body>
 </html>
