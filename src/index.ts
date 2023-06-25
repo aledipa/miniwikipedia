@@ -31,8 +31,14 @@ app.get('/terms', (req, res) => {
     res.sendFile(__dirname + '/views/terms.html');
 });
 
+// Handling non existing page request
+app.get('*', (req, res) => { 
+    res.redirect('/') 
+});
+
 // Handling search request
 app.get('/result', (req, res) => {
+    if (req.query.search == '') { return res.redirect('/'); }
     (async () => {
         try {
             // Tries to give the summary of the search
