@@ -26,10 +26,6 @@ app.get('/privacy', (req, res) => {
 app.get('/terms', (req, res) => {
     res.sendFile(__dirname + '/views/terms.html');
 });
-// Handling non existing page request
-app.get('*', (req, res) => {
-    res.redirect('/');
-});
 // Handling search request
 app.get('/result', (req, res) => {
     if (req.query.search == '') {
@@ -78,6 +74,10 @@ app.post("/suggestion", async (req, res) => {
             //=> Typeof wikiError
         }
     })();
+});
+// Handling non existing page request
+app.get('*', (req, res) => {
+    res.redirect('/');
 });
 // Server listening on given port
 app.listen(port, () => console.info('Listening on port ' + port));
