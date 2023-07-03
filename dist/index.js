@@ -28,16 +28,35 @@ app.get('/terms', (req, res) => {
 });
 // Handling search request
 app.get('/result', (req, res) => {
+    if (req.query.search == '') {
+        return res.redirect('/');
+    }
     (async () => {
         try {
+            // Tries to give the summary of the search
             req.query.search = setPhraseCapitalFirstLetters(req.query.search);
             const summary = await wiki.summary(req.query.search, { autoSuggest: false });
+            if (summary.extract.includes("refer to:")) {
+                throw new Error("No specific summary found");
+            }
             res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
             //Response of type @wikiSummary - contains the intro and the main image
         }
         catch (error) {
-            const summary = await wiki.summary("HTTP 404", { autoSuggest: false });
-            res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
+            // If no summary is found, gives the search results to choose from
+            const search_results = await wiki.search(req.query.search, { suggestion: true, limit: 10 });
+            if (search_results.results.length > 0) {
+                var links = [];
+                for (let i = 0; i < search_results.results.length; i++) {
+                    links.push(formatSpaces(linkFromTitle(search_results.results[i].title), '_'));
+                }
+                res.render(__dirname + '/views/search.html', { title: req.query.search, description: "Topics referred to by the same term", search_results: search_results.results, links: links });
+            }
+            else {
+                // If no search results are found, gives the summary of the "HTTP 404" page
+                const summary = await wiki.summary("HTTP 404", { autoSuggest: false });
+                res.render(__dirname + '/views/result.html', { title: summary.title, description: summary.description, summary: summary.extract });
+            }
             //=> Typeof wikiError
         }
     })();
@@ -56,6 +75,10 @@ app.post("/suggestion", async (req, res) => {
         }
     })();
 });
+// Handling non existing page request
+app.get('*', (req, res) => {
+    res.redirect('/');
+});
 // Server listening on given port
 app.listen(port, () => console.info('Listening on port ' + port));
 // Sets the first letter of every word in a phrase to capital
@@ -66,5 +89,14 @@ function setPhraseCapitalFirstLetters(phrase) {
         capitalizedWords.push(word.charAt(0).toUpperCase() + word.slice(1));
     });
     return capitalizedWords.join(' ');
+}
+// Replaces spaces with underscores
+function formatSpaces(phrase, replacement) {
+    let words = phrase.split(' ');
+    return words.join(replacement);
+}
+// Creates the link of the result option
+function linkFromTitle(title) {
+    return "/result?search=" + title;
 }
 //# sourceMappingURL=index.js.map
