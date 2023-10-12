@@ -38,12 +38,12 @@
 
     <!-- Result -->
     <div class="mt-40 h-screen">
-        <p class="ml-24 georgia font-extrabold text-3xl"> <%= title %> </p>
+        <p class="ml-24 literata font-extrabold text-3xl"> <%= title %> </p>
         <p class="ml-24 helvetica font-thin text-s text-gray-400"><i> <%= description %> </i></p>
         <br>
         <!-- bulleted list of titles -->
         <% for (let i = 1; i < search_results.length; i++) { %>
-            <div class="ml-24 georgia font-thin text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[i] %>"> <%= search_results[i].title %> </a></u> </div>
+            <div class="ml-24 literata  font-light text-xl text-gray-800 w-7/12"> • <u><a href="<%= links[i] %>"> <%= search_results[i].title %> </a></u> </div>
         <% } %>
     </div>
 </body>
