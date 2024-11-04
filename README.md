@@ -4,6 +4,9 @@ miniWikipedia is a summarised version of the whole Wikipedia encyclopedia. It's 
 
 <img src="public/img/miniWikipedia_horizontal.svg" width="400" height="100" />
 
+[![Docker Image CI](https://github.com/aledipa/Free-GPT4-WEB-API/actions/workflows/docker-image.yml/badge.svg)](https://github.com/aledipa/miniwikipedia/actions/workflows/docker-image.yml)
+![Docker Pulls](https://img.shields.io/docker/pulls/d0ckmg/miniwikipedia)
+
 ## Manual Installation
 
 To run miniWikipedia locally, you need to have Node.js and npm installed on your machine. You also need to get an API key from Wikipedia to access their data. Follow these steps to set up the project:
